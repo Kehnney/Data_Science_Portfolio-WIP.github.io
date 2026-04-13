@@ -2,7 +2,7 @@
 
 Welcome to my Data Science Portfolio! This repository contains a collection of projects demonstrating my skills in statistical analysis, data cleaning, hypothesis testing, interactive visualization, and machine learning.
 
-**🔗 [View the Live Interactive Portfolio Here!](https://kennyvang.github.io/Data_Science_Portfolio-WIP.github.io/)** *(Note: Update this link if your repository name changes)*
+**🔗 [View the Live Interactive Portfolio Here!](Data_Science_Portfolio-WIP.github.io)** *(Note: Update this link if your repository name changes)*
 
 ---
 
