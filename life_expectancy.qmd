@@ -8,15 +8,74 @@ This project investigates the factors influencing global life expectancy across 
 
 ::: {.panel-tabset}
 
-## 📝 Analysis Report
+## 📝 Analysis Report & Findings
+
+```{python}
+#| echo: false
+#| warning: false
+import pandas as pd
+import numpy as np
+import plotly.express as px
+
+# Load the dataset
+df = pd.read_csv('LifeExpectancy_Analysis_Project/data/Life-Expectancy-Data-Updated.csv')
+```
 
 ### Scope & Hypothesis
 Our objective was to identify the primary driving forces behind life expectancy. We tested whether economic prosperity is the main driver, or if basic public health measures (like immunization) and societal infrastructure (like schooling) weigh more heavily.
 
-### Key Findings
-1. **The Economic Divide**: Developed countries consistently show considerably longer life expectancies. However, `GDP per capita`, while positively correlated, has diminishing returns. Once a baseline GDP is met, health and societal metrics take over.
-2. **Impact of Education**: Interestingly, `Schooling` presented one of the strongest positive correlations with life expectancy among all metrics. Education generally correlates highly with better health consciousness, occupational safety, and income levels.
-3. **Mortality & Immunization**: `Adult Mortality` and `Under 5 Deaths` show extremely strong negative correlations with Life Expectancy. Additionally, common immunizations (`Polio`, `Hepatitis B`) showcase a mild but firm baseline correlation across populations, verifying the necessity of standard medicine.
+### 1. The Economic Divide
+We compared the overall distribution of life expectancy against GDP per capita to see if economic prosperity translates directly to longer lifespans.
+
+```{python}
+#| code-fold: true
+# Scatter plot for GDP per capita vs Life Expectancy
+fig_curr = px.scatter(
+    df, x="GDP per capita", y="Life Expectancy", 
+    title="Life Expectancy vs GDP Per Capita",
+    opacity=0.6,
+    color="Region",
+    hover_data=['Country']
+)
+fig_curr.show()
+```
+
+*Finding:* Developed countries consistently show considerably longer life expectancies. However, `GDP per capita`, while positively correlated, has diminishing returns. Once a baseline GDP is met, health and societal metrics take over.
+
+### 2. Impact of Education
+Next, we analyzed how education (measured in years of schooling) impacts life expectancy.
+
+```{python}
+#| code-fold: true
+# Scatter plot for Schooling vs Life Expectancy
+fig_edu = px.scatter(
+    df, x="Schooling", y="Life Expectancy", 
+    title="Influence of Schooling on Life Expectancy",
+    opacity=0.6,
+    color_discrete_sequence=['#2CA02C']
+)
+# Add an OLS trendline if statsmodels is available, else just the scatter
+fig_edu.show()
+```
+
+*Finding:* Interestingly, `Schooling` presents one of the strongest positive correlations with life expectancy among all metrics. Education generally correlates highly with better health consciousness, occupational safety, and higher income levels.
+
+### 3. Mortality & Immunization
+Finally, we looked at how basic health indicators like Adult Mortality affect life expectancy.
+
+```{python}
+#| code-fold: true
+# Scatter plot for Adult Mortality vs Life Expectancy
+fig_mort = px.scatter(
+    df, x="Adult Mortality", y="Life Expectancy", 
+    title="Adult Mortality vs Life Expectancy",
+    opacity=0.5,
+    color_discrete_sequence=['#D62728']
+)
+fig_mort.show()
+```
+
+*Finding:* `Adult Mortality` and `Under 5 Deaths` show an extremely strong negative correlation with life expectancy. Basic healthcare factors (including immunization for Polio and Hepatitis B) form a crucial baseline for standard medicine that drastically improves overall population lifespans.
 
 ## 📊 Interactive Dashboard
 
