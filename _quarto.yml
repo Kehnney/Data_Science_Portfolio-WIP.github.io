@@ -1,0 +1,22 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Kenny Vang's Data Science Portfolio"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: life_expectancy.qmd
+        text: Life Expectancy
+      - href: liver_disease.qmd
+        text: Liver Predictor
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    code-fold: true
+    css: styles.css
+    page-layout: full

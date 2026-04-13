@@ -1,0 +1,20 @@
+
+---
+title: "Welcome to My Data Science Portfolio 🚀"
+---
+
+# Hello, I'm Kenny Vang
+
+I am a Data Science student at UC Santa Barbara, passionate about uncovering insights from complex datasets. My specialties include statistical analysis, data cleaning, hypothesis testing, and machine learning using tools like Python, Jupyter, Pandas, and Plotly.
+
+Welcome to my portfolio! Here you will find some of my recent projects demonstrating my analytical and web development skills.
+
+### 🌐 Featured Projects
+
+* **[Life Expectancy Analysis](life_expectancy.qmd)**: Exploring the socio-economic and health factors influencing global life expectancy from 2000 to 2015 using World Health Organization data.
+* **[Liver Disease Predictor](liver_disease.qmd)**: A machine learning application predicting liver disease risk based on patient health metrics, built using Scikit-Learn and Shinylive.
+
+### 📬 Connect with Me
+
+* [GitHub (@Kehnney)](https://github.com/Kehnney)
+* [LinkedIn](https://linkedin.com)

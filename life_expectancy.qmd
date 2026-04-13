@@ -1,0 +1,64 @@
+---
+title: "Life Expectancy Analysis"
+execute:
+  echo: true
+---
+
+This project investigates the factors influencing global life expectancy across different countries from 2000 to 2015. Data is sourced from the World Health Organization (WHO) and the United Nations.
+
+::: {.panel-tabset}
+
+## 📝 Analysis Report
+
+### Scope & Hypothesis
+Our objective was to identify the primary driving forces behind life expectancy. We tested whether economic prosperity is the main driver, or if basic public health measures (like immunization) and societal infrastructure (like schooling) weigh more heavily.
+
+### Key Findings
+1. **The Economic Divide**: Developed countries consistently show considerably longer life expectancies. However, `GDP per capita`, while positively correlated, has diminishing returns. Once a baseline GDP is met, health and societal metrics take over.
+2. **Impact of Education**: Interestingly, `Schooling` presented one of the strongest positive correlations with life expectancy among all metrics. Education generally correlates highly with better health consciousness, occupational safety, and income levels.
+3. **Mortality & Immunization**: `Adult Mortality` and `Under 5 Deaths` show extremely strong negative correlations with Life Expectancy. Additionally, common immunizations (`Polio`, `Hepatitis B`) showcase a mild but firm baseline correlation across populations, verifying the necessity of standard medicine.
+
+## 📊 Interactive Dashboard
+
+Explore the relationship between different socioeconomic status, health factors, and life expectancy using interactive `Plotly` plots!
+
+```{python}
+import pandas as pd
+import numpy as np
+import plotly.express as px
+
+# Load the dataset
+df = pd.read_csv('LifeExpectancy_Analysis_Project/data/Life-Expectancy-Data-Updated.csv')
+
+# Create an interactive scatter plot
+fig = px.scatter(
+    df, 
+    x="GDP per capita", 
+    y="Life Expectancy", 
+    hover_data=['Country', 'Year'],
+    color='Economy Status - Developed',
+    opacity=0.6,
+    title="Life Expectancy vs GDP per capita"
+)
+
+fig.show()
+```
+
+```{python}
+# Select numeric columns exclusively
+numeric_cols = df.select_dtypes(include=np.number).columns.tolist()
+corr_matrix = df[numeric_cols].corr()
+
+# Create interactive heatmap
+fig_corr = px.imshow(
+    corr_matrix,
+    text_auto=False,
+    aspect="auto",
+    color_continuous_scale='RdBu_r', 
+    title="Correlation Heatmap of Life Expectancy Factors"
+)
+
+fig_corr.show()
+```
+
+:::
