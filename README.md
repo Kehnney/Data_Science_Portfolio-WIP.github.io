@@ -2,7 +2,7 @@
 
 Welcome to my Data Science Portfolio! This repository contains a collection of projects demonstrating my skills in statistical analysis, data cleaning, hypothesis testing, interactive visualization, and machine learning.
 
-**🔗 [View the Live Interactive Portfolio Here!](https://kennyvang.github.io/Data_Science_Portfolio-W.I.P/)** *(Note: Update this link if your repository name changes)*
+**🔗 [View the Live Interactive Portfolio Here!](https://kennyvang.github.io/Data_Science_Portfolio-WIP.github.io/)** *(Note: Update this link if your repository name changes)*
 
 ---
 
@@ -31,7 +31,7 @@ Welcome to my Data Science Portfolio! This repository contains a collection of p
 ## 🚀 How to View & Run
 
 **You DO NOT need to download or install anything to view this portfolio!** 
-Simply [click here to view the live interactive website](https://kennyvang.github.io/Data_Science_Portfolio-W.I.P/) directly in your browser. Thanks to Quarto and Shinylive, all Python machine learning models and visualizations compile into WebAssembly and execute entirely on the client-side.
+Simply [click here to view the live interactive website](https://kennyvang.github.io/Data_Science_Portfolio-WIP.github.io/) directly in your browser. Thanks to Quarto and Shinylive, all Python machine learning models and visualizations compile into WebAssembly and execute entirely on the client-side.
 
 ### For Developers (Running the source code locally)
 If you want to clone this repository, dig into the code, and run the development environment on your own local machine, follow these steps:
@@ -43,8 +43,8 @@ If you want to clone this repository, dig into the code, and run the development
 ### Installation
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/kennyvang/Data_Science_Portfolio-W.I.P.git
-   cd Data_Science_Portfolio-W.I.P
+   git clone https://github.com/kennyvang/Data_Science_Portfolio-WIP.github.io.git
+   cd Data_Science_Portfolio-WIP.github.io
    ```
 
 2. **Install the required Python packages:**
