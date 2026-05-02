@@ -2,7 +2,7 @@
 
 Welcome to my data science portfolio. This repository is a Quarto website that showcases two projects using statistical analysis, data cleaning, hypothesis testing, interactive visualization, and machine learning.
 
-**🔗 [View the Live Interactive Portfolio Here!](https://Kehnney.github.io/Data_Science_Portfolio-WIP.github.io/)**
+**🔗 [View the Live Interactive Portfolio Here!](https://kehnney.github.io/DataScience_Portfolio.github.io/)**
 
 ---
 
@@ -31,7 +31,7 @@ Welcome to my data science portfolio. This repository is a Quarto website that s
 ## 🚀 How to View & Run
 
 **You DO NOT need to download or install anything to view this portfolio!** 
-Simply [click here to view the live interactive website](https://Kehnney.github.io/Data_Science_Portfolio-WIP.github.io/) directly in your browser. Thanks to Quarto and Shinylive, the interactive Python content executes directly in the client-side browser environment.
+Simply [click here to view the live interactive website](https://kehnney.github.io/DataScience_Portfolio.github.io/) directly in your browser. Thanks to Quarto and Shinylive, the interactive Python content executes directly in the client-side browser environment.
 
 ### For Developers (Running the source code locally)
 If you want to clone this repository, dig into the code, and run the development environment on your own local machine, follow these steps:
