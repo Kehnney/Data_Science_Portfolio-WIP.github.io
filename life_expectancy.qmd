@@ -4,11 +4,11 @@ execute:
   echo: true
 ---
 
-This project investigates the factors influencing global life expectancy across different countries from 2000 to 2015. Data is sourced from the World Health Organization (WHO) and the United Nations.
+This project looks at which factors are most closely associated with life expectancy across countries from 2000 to 2015. The notebook for this project focused on schooling, GDP per capita, mortality, immunization, region-level averages, and a few comparison checks between developed and developing countries.
 
 ::: {.panel-tabset}
 
-## 📝 Analysis Report & Findings
+## Report And Findings
 
 ```{python}
 #| echo: false
@@ -16,140 +16,264 @@ This project investigates the factors influencing global life expectancy across 
 import pandas as pd
 import numpy as np
 import plotly.express as px
+import seaborn as sns
+import matplotlib.pyplot as plt
 
-# Load the dataset
-df = pd.read_csv('LifeExpectancy_Analysis_Project/data/Life-Expectancy-Data-Updated.csv')
+df = pd.read_csv("LifeExpectancy_Analysis_Project/data/Life-Expectancy-Data-Updated.csv")
+df = df.copy()
+df["Status"] = np.where(df["Economy Status - Developed"] == 1, "Developed", "Developing")
+
+corr_vars = [
+    "Schooling",
+    "GDP per capita",
+    "Adult Mortality",
+    "Under 5 Deaths",
+    "Infant Deaths",
+    "Polio",
+    "Hepatitis B",
+]
+corr_table = pd.DataFrame({
+    "Variable": corr_vars,
+    "Correlation with Life Expectancy": [df["Life Expectancy"].corr(df[col]) for col in corr_vars]
+}).sort_values("Correlation with Life Expectancy", ascending=False)
+
+regional_vaccines = (
+    df.groupby("Region")[["Hepatitis B", "Polio", "Measles"]]
+      .mean()
+      .reset_index()
+      .melt(id_vars="Region", var_name="Vaccination", value_name="Average Coverage")
+)
+
+regional_health = (
+    df.groupby("Region")[["GDP per capita", "Infant Deaths", "Under 5 Deaths"]]
+      .mean()
+      .reset_index()
+)
+
+status_summary = df.groupby("Status", as_index=False)["Life Expectancy"].mean()
 ```
 
-### Scope & Hypothesis
-Our objective was to identify the primary driving forces behind life expectancy. We tested whether economic prosperity is the main driver, or if basic public health measures (like immunization) and societal infrastructure (like schooling) weigh more heavily.
+### Dataset And Cleaning
+The dataset contains country-year observations from 2000 to 2015. In the notebook, the two economy-status columns were combined into one cleaner `Status` label, which makes the developed-versus-developing comparisons easier to read.
 
-### 1. The Economic Divide
-We compared the overall distribution of life expectancy against GDP per capita to see if economic prosperity translates directly to longer lifespans.
+```{python}
+corr_table
+```
+
+The correlation table above matches the notebook's main pattern: schooling has one of the strongest positive relationships with life expectancy, while adult mortality and child mortality have very strong negative relationships.
+
+### Education And Economy
+The notebook first checked whether schooling and GDP move together.
 
 ```{python}
 #| code-fold: true
-# Scatter plot for GDP per capita vs Life Expectancy
+fig_school_gdp = px.scatter(
+    df,
+    x="Schooling",
+    y="GDP per capita",
+    color="Region",
+    opacity=0.6,
+    hover_data=["Country"],
+    title="Schooling vs GDP per Capita"
+)
+fig_school_gdp.show()
+```
+
+The notebook's result here is straightforward: countries with more schooling tend to have higher GDP per capita. That does not prove schooling alone causes GDP to rise, but it does show a clear positive association.
+
+### Life Expectancy And Health Factors
+GDP is positively related to life expectancy, but the notebook shows that this is only part of the story.
+
+```{python}
+#| code-fold: true
 fig_curr = px.scatter(
-    df, x="GDP per capita", y="Life Expectancy", 
+    df,
+    x="GDP per capita",
+    y="Life Expectancy",
     title="Life Expectancy vs GDP Per Capita",
     opacity=0.6,
     color="Region",
-    hover_data=['Country']
+    hover_data=["Country"]
 )
 fig_curr.show()
 ```
 
-*Finding:* Developed countries consistently show considerably longer life expectancies. However, `GDP per capita`, while positively correlated, has diminishing returns. Once a baseline GDP is met, health and societal metrics take over.
-
-### 2. Impact of Education
-Next, we analyzed how education (measured in years of schooling) impacts life expectancy.
-
 ```{python}
 #| code-fold: true
-# Scatter plot for Schooling vs Life Expectancy
-fig_edu = px.scatter(
-    df, x="Schooling", y="Life Expectancy", 
-    title="Influence of Schooling on Life Expectancy",
-    opacity=0.6,
-    color_discrete_sequence=['#2CA02C']
-)
-# Add an OLS trendline if statsmodels is available, else just the scatter
-fig_edu.show()
-```
-
-*Finding:* Interestingly, `Schooling` presents one of the strongest positive correlations with life expectancy among all metrics. Education generally correlates highly with better health consciousness, occupational safety, and higher income levels.
-
-### 3. Mortality & Immunization
-Finally, we looked at how basic health indicators like Adult Mortality affect life expectancy.
-
-```{python}
-#| code-fold: true
-# Scatter plot for Adult Mortality vs Life Expectancy
 fig_mort = px.scatter(
-    df, x="Adult Mortality", y="Life Expectancy", 
+    df,
+    x="Adult Mortality",
+    y="Life Expectancy",
     title="Adult Mortality vs Life Expectancy",
     opacity=0.5,
-    color_discrete_sequence=['#D62728']
+    color="Region"
 )
 fig_mort.show()
 ```
 
-*Finding:* `Adult Mortality` and `Under 5 Deaths` show an extremely strong negative correlation with life expectancy. Basic healthcare factors (including immunization for Polio and Hepatitis B) form a crucial baseline for standard medicine that drastically improves overall population lifespans.
+The notebook's strongest health finding is that adult mortality and under-five deaths both move strongly in the opposite direction from life expectancy. The report should keep this as an association finding rather than saying those factors directly cause the change.
 
-## 📊 Interactive Dashboard
-
-Explore the relationship between different socioeconomic status, health factors, and life expectancy using interactive `Plotly` plots!
+### Regional Patterns
+The notebook also compared public health conditions by region.
 
 ```{python}
-import pandas as pd
-import numpy as np
-import plotly.express as px
+#| code-fold: true
+fig_vax = px.bar(
+    regional_vaccines,
+    x="Region",
+    y="Average Coverage",
+    color="Vaccination",
+    barmode="group",
+    title="Average Vaccination Coverage by Region"
+)
+fig_vax.update_layout(xaxis_title="Region", yaxis_title="Average Coverage (%)")
+fig_vax.show()
+```
 
-# Load the dataset
-df = pd.read_csv('LifeExpectancy_Analysis_Project/data/Life-Expectancy-Data-Updated.csv')
+```{python}
+#| code-fold: true
+fig_health = px.bar(
+    regional_health.melt(id_vars="Region", var_name="Measure", value_name="Average"),
+    x="Region",
+    y="Average",
+    color="Measure",
+    barmode="group",
+    title="Regional Child Health And Wealth Summary"
+)
+fig_health.update_layout(xaxis_title="Region", yaxis_title="Average Value")
+fig_health.show()
+```
 
-# Create an interactive scatter plot
-fig = px.scatter(
-    df, 
-    x="GDP per capita", 
-    y="Life Expectancy", 
-    hover_data=['Country', 'Year'],
-    color='Economy Status - Developed',
+These plots reflect the notebook's regional story: wealthier regions generally have lower child mortality and higher vaccination coverage, while lower-income regions face larger health burdens.
+
+### Developed Vs Developing
+The notebook also compared developed and developing countries directly.
+
+```{python}
+#| code-fold: true
+fig_status = px.bar(
+    status_summary,
+    x="Status",
+    y="Life Expectancy",
+    title="Average Life Expectancy by Economic Status",
+    color="Status"
+)
+fig_status.update_layout(xaxis_title="Status", yaxis_title="Average Life Expectancy")
+fig_status.show()
+```
+
+That comparison supports the notebook's broader conclusion: developed countries tend to have higher average life expectancy, but the difference is better explained by a combination of schooling, mortality, vaccination, and income instead of one single variable.
+
+### Population And Health Challenges
+The notebook also checked whether large populations were automatically linked to worse health outcomes.
+
+```{python}
+#| code-fold: true
+fig_pop_hiv = px.scatter(
+    df,
+    x="Population (million)",
+    y="HIV",
+    color="Status",
     opacity=0.6,
-    title="Life Expectancy vs GDP per capita"
+    hover_data=["Country"],
+    title="Population vs HIV"
+)
+fig_pop_hiv.show()
+```
+
+```{python}
+#| code-fold: true
+fig_pop_mort = px.scatter(
+    df,
+    x="Population (million)",
+    y="Adult Mortality",
+    color="Status",
+    opacity=0.6,
+    hover_data=["Country"],
+    title="Population vs Adult Mortality"
+)
+fig_pop_mort.show()
+```
+
+These plots support the notebook's point that population size by itself does not explain HIV or adult mortality very well. The country's development level is the more useful context.
+
+### Schooling And Improvement Over Time
+The notebook also asked whether more schooling was linked to faster improvement in life expectancy from 2000 to 2015.
+
+```{python}
+#| code-fold: true
+def improvement_rate(group):
+    group = group.sort_values("Year")
+    if len(group) >= 16 and group["Life Expectancy"].iloc[0] > 0:
+        start = group["Life Expectancy"].iloc[0]
+        end = group["Life Expectancy"].iloc[-1]
+        return (end - start) / start * 100
+    return np.nan
+
+developing = df[df["Status"] == "Developing"].copy()
+developing_rates = developing.groupby("Country").apply(improvement_rate).reset_index(name="Improvement Rate")
+developing_2000 = developing[developing["Year"] == 2000][["Country", "Schooling"]].merge(developing_rates, on="Country", how="left")
+
+world_rates = df.groupby("Country").apply(improvement_rate).reset_index(name="Improvement Rate World")
+world_2000 = df[df["Year"] == 2000][["Country", "Schooling"]].merge(world_rates, on="Country", how="left")
+
+schooling_growth = pd.DataFrame({
+    "Scope": ["Developing countries", "World"],
+    "Correlation with Schooling": [
+        developing_2000["Schooling"].corr(developing_2000["Improvement Rate"]),
+        world_2000["Schooling"].corr(world_2000["Improvement Rate World"]),
+    ]
+})
+schooling_growth
+```
+
+The notebook's result here is more cautious than the earlier sections: schooling does not clearly explain faster life expectancy improvement in a simple linear way. That means the report should avoid saying schooling is a proven driver of improvement over time.
+
+### Conclusion
+The notebook's full analysis supports a simple takeaway. Life expectancy is associated with several connected factors, especially schooling, child mortality, adult mortality, and vaccination coverage. GDP matters too, but the report should avoid claiming that GDP alone explains the whole pattern.
+
+## Interactive Dashboard
+
+```{python}
+#| code-fold: true
+fig = px.scatter(
+    df,
+    x="GDP per capita",
+    y="Life Expectancy",
+    hover_data=["Country", "Year"],
+    color="Status",
+    opacity=0.6,
+    title="Life Expectancy vs GDP per Capita"
 )
 
 fig.show()
 ```
 
 ```{python}
-import seaborn as sns
-import matplotlib.pyplot as plt
-
-# Work on a copy so the scatter plot's df is not affected
-df_heat = df.copy()
-
-# Remove redundant columns before computing correlations:
-# "Economy Status - Developing" is the exact opposite of "Economy Status - Developed"
-# "Infant Deaths" and "Under 5 Deaths" measure nearly the same thing; keep "Under 5 Deaths"
-df_heat = df_heat.drop(columns=["Economy Status - Developing", "Infant Deaths"])
-
-# Rename columns so the heatmap labels are readable
-df_heat = df_heat.rename(columns={
-    "Alcohol Consum":           "Alcohol Consumption",
-    "Thin 10-19":               "Thinness 10-19",
+#| code-fold: true
+df_heat = df.drop(columns=["Economy Status - Developing", "Infant Deaths"]).rename(columns={
+    "Alcohol Consum": "Alcohol Consumption",
+    "Thin 10-19": "Thinness 10-19",
     "Economy Status - Developed": "Developed (binary)",
 })
 
-# Keep only numeric columns for the correlation calculation
 numeric_df = df_heat.select_dtypes(include=np.number)
-
-# Compute pairwise correlation coefficients (-1 to 1)
 corr_matrix = numeric_df.corr()
 
-# Plot the heatmap
 fig, ax = plt.subplots(figsize=(16, 12))
-
 sns.heatmap(
     corr_matrix,
-    annot=True,       # show correlation numbers inside each cell
-    fmt=".2f",        # round to 2 decimal places
-    cmap="coolwarm",  # blue = negative, red = positive
-    center=0,         # white at zero correlation
+    annot=True,
+    fmt=".2f",
+    cmap="coolwarm",
+    center=0,
     vmin=-1,
     vmax=1,
     ax=ax
 )
-
 ax.set_title("Correlation Heatmap of Life Expectancy and Related Factors", fontsize=14)
-
-# Rotate x-axis labels for readability
 plt.xticks(rotation=45, ha="right")
-
-# Keep y-axis labels horizontal
 plt.yticks(rotation=0)
-
 plt.tight_layout()
 plt.show()
 ```

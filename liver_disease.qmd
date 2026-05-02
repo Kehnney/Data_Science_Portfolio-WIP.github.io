@@ -1,14 +1,14 @@
 ---
-title: "Liver Disease Predictor"
+title: "Liver Disease Analysis"
 filters:
   - shinylive
 ---
 
-This project predicts the risk of liver disease based on patient health metrics using a machine learning model designed with Scikit-Learn based on the Indian Liver Patient Dataset (ILPD).
+This project analyzes liver disease risk factors using the Indian Liver Patient Dataset (ILPD). The notebook focuses on cleaning, age and protein patterns, gender differences, and hypothesis tests. The interactive app at the end is only a small demo and should not be treated as a clinical model.
 
 ::: {.panel-tabset}
 
-## 🔬 Analysis Report & Findings
+## Analysis Report And Findings
 
 ```{python}
 #| echo: false
@@ -17,20 +17,63 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 
-# Load the dataset
 df = pd.read_csv('LiverDisease_Analysis_Project/data/ILPD.csv')
+
+ag_ratio_missing = df["A/G Ratio"].isna().sum()
+age_mean = df["Age"].mean()
+age_median = df["Age"].median()
+age_min = df["Age"].min()
+age_max = df["Age"].max()
+tp_alb_corr = df["TP"].corr(df["ALB"])
+
+under_60 = df[df["Age"] <= 60]
+prob_men = len(under_60[(under_60["Gender"] == "Male") & (under_60["Selector"] == 2)]) / len(under_60[under_60["Gender"] == "Male"]) * 100
+prob_women = len(under_60[(under_60["Gender"] == "Female") & (under_60["Selector"] == 2)]) / len(under_60[under_60["Gender"] == "Female"]) * 100
+
+age_stats = pd.DataFrame({
+    "Statistic": ["Mean", "Median", "Min", "Max"],
+    "Value": [age_mean, age_median, age_min, age_max]
+})
+
+gender_prob = pd.DataFrame({
+    "Group": ["Men < 60", "Women < 60"],
+    "Probability of Liver Disease (%)": [prob_men, prob_women]
+})
+
+test_results = pd.DataFrame({
+    "Test": [
+        "Gender disease rate, under 60",
+        "Albumin difference in female patients",
+        "Custom albumin by gender test",
+    ],
+    "Observed Result": [8.5763, 0.1391, 0.3122],
+    "P-Value": [0.0328, 0.1750, 0.0229],
+    "Interpretation": [
+        "Significant at 5%",
+        "Not significant at 5%",
+        "Significant at 5%",
+    ],
+})
 ```
 
 ### Dataset Overview
 The analysis is based on the **Indian Liver Patient Dataset (ILPD)**, containing patient records collected from Andhra Pradesh, India.
-We performed data cleaning and statistical hypothesis testing to investigate the relationships between age, gender, proteins, and liver disease diagnosis.
+In the notebook, `Selector == 2` represents patients diagnosed with liver disease and `Selector == 1` represents healthy patients.
+
+### Cleaning
+The notebook found 4 missing values in the `A/G Ratio` column and removed those rows before analysis.
+
+```{python}
+pd.DataFrame({
+    "Missing values in A/G Ratio": [ag_ratio_missing]
+})
+```
 
 ### 1. Age Distribution
 We first analyzed the distribution of patient ages.
 
 ```{python}
 #| code-fold: true
-# Plotting the age distribution
 fig_age = px.histogram(
     df, x="Age", nbins=20, 
     title="Distribution of Patient Ages",
@@ -39,14 +82,17 @@ fig_age = px.histogram(
 fig_age.show()
 ```
 
-*Finding:* Most patients in the dataset are middle-aged, clustering heavily between 30 and 60 years old. The distribution is not uniform, showing that liver disease testing or incidence primarily targets the middle-aged demographic. The average age is approximately 45 years.
+```{python}
+age_stats
+```
+
+Most patients are middle-aged, clustering between 30 and 60 years old. The average age is about 44.7, the median is 45, and the full range in the dataset is 4 to 90.
 
 ### 2. Biological Indicators: Protein Correlations
 We plotted Total Proteins (TP) against Albumin (ALB) to visually inspect and calculate their correlation.
 
 ```{python}
 #| code-fold: true
-# Scatter plot for TP vs ALB
 fig_corr = px.scatter(
     df, x="TP", y="ALB", 
     title="Total Proteins vs Albumin Correlation",
@@ -56,37 +102,40 @@ fig_corr = px.scatter(
 fig_corr.show()
 ```
 
-*Finding:* There is a strong positive correlation (approx. `0.79`) between Total Proteins (TP) and Albumin (ALB). Since Albumin is a major protein synthesized by the liver, calculating this tight relationship acts as a vital baseline indicator in liver health diagnostics.
+The notebook shows a strong positive correlation of about `0.78` between Total Proteins and Albumin. That is a useful baseline relationship to show, but it is still a correlation result, not a proof of cause and effect.
 
 ### 3. Demographic Risks (Men vs Women)
 We filtered the data to examine patients under 60 and calculate the likelihood of presenting with liver disease based on gender.
 
 ```{python}
 #| code-fold: true
-# Filter for patients <= 60
-under_60 = df[df['Age'] <= 60]
-
-# In ILPD, Selector '1' = Liver Patient, '2' = Healthy
-# Compute actual disease probabilities:
-prob_men = len(under_60[(under_60['Gender'] == 'Male') & (under_60['Selector'] == 1)]) / len(under_60[under_60['Gender'] == 'Male']) * 100
-prob_women = len(under_60[(under_60['Gender'] == 'Female') & (under_60['Selector'] == 1)]) / len(under_60[under_60['Gender'] == 'Female']) * 100
-
-prob_df = pd.DataFrame({
-    "Group": ["Men < 60", "Women < 60"],
-    "Probability (%)": [prob_men, prob_women]
-})
-
 fig_prob = px.bar(
-    prob_df, x="Probability (%)", y="Group", orientation='h',
+    gender_prob, x="Probability of Liver Disease (%)", y="Group", orientation='h',
     title="Probability of Liver Disease by Gender (Under 60)",
     color="Group"
 )
 fig_prob.show()
 ```
 
-*Finding:* When segmenting patients under the age of 60, we notice distinct representation differences. Within this sample population, men present with liver disease complications at an exceptionally high rate (over 70%), underscoring males under 60 as a prime demographic for preventative screenings.
+```{python}
+gender_prob
+```
+
+Using the notebook's selector coding, about `27.0%` of men under 60 and `33.9%` of women under 60 are diagnosed with liver disease in this sample. That means the notebook does not support the claim that men under 60 have the higher disease rate.
+
+### 4. Hypothesis Tests
+The notebook includes several A/B or permutation-style tests. The most important thing here is to read the p-value correctly.
+
+```{python}
+test_results
+```
+
+The gender difference test is statistically significant because the p-value is below 0.05. The albumin difference test for female patients is not statistically significant. The custom albumin-by-gender test is also statistically significant.
 
 ## 🩺 Interactive Predictor
+
+*Note: This is a demo app. It uses a synthetic training set inside the app code, so it should not be read as a real ILPD-based medical predictor.*
+
 ```{shinylive-python}
 #| standalone: true
 #| components: [viewer]
@@ -99,7 +148,7 @@ from sklearn.ensemble import RandomForestClassifier
 
 # Define the user interface
 app_ui = ui.page_fluid(
-    ui.h2("Liver Disease Risk Predictor"),
+    ui.h2("Liver Disease Risk Demo"),
     ui.layout_sidebar(
         ui.sidebar(
             ui.h4("Patient Health Metrics"),
