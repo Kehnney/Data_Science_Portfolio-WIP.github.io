@@ -1,0 +1,5 @@
+jupyter
+shiny
+plotly
+pandas
+scikit-learn
