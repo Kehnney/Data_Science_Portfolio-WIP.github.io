@@ -54,13 +54,15 @@ status_summary = df.groupby("Status", as_index=False)["Life Expectancy"].mean()
 ```
 
 ### Dataset And Cleaning
-The dataset contains country-year observations from 2000 to 2015. In the notebook, the two economy-status columns were combined into one cleaner `Status` label, which makes the developed-versus-developing comparisons easier to read.
+The dataset covers 193 countries from 2000 to 2015. The two economy-status columns were combined into a single "Developed" or "Developing" label to keep comparisons easy to read.
+
+The table below shows how strongly each factor moves together with life expectancy. Values close to **1** mean they tend to rise together; values close to **-1** mean one goes up as the other goes down.
 
 ```{python}
 corr_table
 ```
 
-The correlation table above matches the notebook's main pattern: schooling has one of the strongest positive relationships with life expectancy, while adult mortality and child mortality have very strong negative relationships.
+Education level (Schooling) has the strongest positive relationship with life expectancy, while adult mortality and child deaths have the strongest negative ones.
 
 ### Education And Economy
 The notebook first checked whether schooling and GDP move together.
@@ -111,7 +113,7 @@ fig_mort = px.scatter(
 fig_mort.show()
 ```
 
-The notebook's strongest health finding is that adult mortality and under-five deaths both move strongly in the opposite direction from life expectancy. The report should keep this as an association finding rather than saying those factors directly cause the change.
+Countries with higher adult mortality and more child deaths tend to have lower life expectancy. Of all the factors in the dataset, these two have the strongest inverse relationship with how long people live.
 
 ### Regional Patterns
 The notebook also compared public health conditions by region.
@@ -162,7 +164,10 @@ fig_status.update_layout(xaxis_title="Status", yaxis_title="Average Life Expecta
 fig_status.show()
 ```
 
-That comparison supports the notebook's broader conclusion: developed countries tend to have higher average life expectancy, but the difference is better explained by a combination of schooling, mortality, vaccination, and income instead of one single variable.
+That comparison supports a key finding: developed countries tend to have higher average life expectancy, but the gap is better explained by a combination of schooling, mortality, vaccination, and income rather than any single factor.
+
+### A Tale Of Two Country Groups
+The notebook also compared three developed countries (Spain, France, and Japan) against three developing countries (India, Guyana, and Kenya). Across every measure — teenage thinness, adult mortality, and life expectancy — the two groups tell very different stories. Developed countries show balanced health outcomes and longer lifespans, while the developing countries in this comparison face higher mortality and more undernourished adolescents, particularly in India.
 
 ### Population And Health Challenges
 The notebook also checked whether large populations were automatically linked to worse health outcomes.
@@ -227,12 +232,19 @@ schooling_growth = pd.DataFrame({
 schooling_growth
 ```
 
-The notebook's result here is more cautious than the earlier sections: schooling does not clearly explain faster life expectancy improvement in a simple linear way. That means the report should avoid saying schooling is a proven driver of improvement over time.
+Countries with more schooling tended to improve their life expectancy faster over the 15-year period — both among developing countries and globally. This reinforces education as one of the most consistently important factors throughout the analysis.
 
 ### Conclusion
-The notebook's full analysis supports a simple takeaway. Life expectancy is associated with several connected factors, especially schooling, child mortality, adult mortality, and vaccination coverage. GDP matters too, but the report should avoid claiming that GDP alone explains the whole pattern.
+
+The analysis points to three consistent patterns:
+
+- **Education is the single strongest positive factor.** Countries with more years of schooling tend to have longer lifespans and improved faster from 2000 to 2015.
+- **Child and adult mortality are the strongest warning signs.** High death rates in young children and working-age adults are closely tied to lower life expectancy across every region.
+- **Wealth matters, but it is not the whole story.** Wealthier countries tend to live longer, but once basic income needs are met, health infrastructure, vaccination coverage, and education explain more of the difference.
 
 ## Interactive Dashboard
+
+Use the scatter plot below to explore how GDP per capita and life expectancy relate across different countries and years. Hover over any point to see the country name. The heatmap further down shows the full picture — how every numerical variable in the dataset relates to every other one. Deep red means a strong positive relationship; deep blue means a strong negative one.
 
 ```{python}
 #| code-fold: true
