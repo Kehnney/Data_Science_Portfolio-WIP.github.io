@@ -104,20 +104,54 @@ fig.show()
 ```
 
 ```{python}
-# Select numeric columns exclusively
-numeric_cols = df.select_dtypes(include=np.number).columns.tolist()
-corr_matrix = df[numeric_cols].corr()
+import seaborn as sns
+import matplotlib.pyplot as plt
 
-# Create interactive heatmap
-fig_corr = px.imshow(
+# Work on a copy so the scatter plot's df is not affected
+df_heat = df.copy()
+
+# Remove redundant columns before computing correlations:
+# "Economy Status - Developing" is the exact opposite of "Economy Status - Developed"
+# "Infant Deaths" and "Under 5 Deaths" measure nearly the same thing; keep "Under 5 Deaths"
+df_heat = df_heat.drop(columns=["Economy Status - Developing", "Infant Deaths"])
+
+# Rename columns so the heatmap labels are readable
+df_heat = df_heat.rename(columns={
+    "Alcohol Consum":           "Alcohol Consumption",
+    "Thin 10-19":               "Thinness 10-19",
+    "Economy Status - Developed": "Developed (binary)",
+})
+
+# Keep only numeric columns for the correlation calculation
+numeric_df = df_heat.select_dtypes(include=np.number)
+
+# Compute pairwise correlation coefficients (-1 to 1)
+corr_matrix = numeric_df.corr()
+
+# Plot the heatmap
+fig, ax = plt.subplots(figsize=(16, 12))
+
+sns.heatmap(
     corr_matrix,
-    text_auto=False,
-    aspect="auto",
-    color_continuous_scale='RdBu_r', 
-    title="Correlation Heatmap of Life Expectancy Factors"
+    annot=True,       # show correlation numbers inside each cell
+    fmt=".2f",        # round to 2 decimal places
+    cmap="coolwarm",  # blue = negative, red = positive
+    center=0,         # white at zero correlation
+    vmin=-1,
+    vmax=1,
+    ax=ax
 )
 
-fig_corr.show()
+ax.set_title("Correlation Heatmap of Life Expectancy and Related Factors", fontsize=14)
+
+# Rotate x-axis labels for readability
+plt.xticks(rotation=45, ha="right")
+
+# Keep y-axis labels horizontal
+plt.yticks(rotation=0)
+
+plt.tight_layout()
+plt.show()
 ```
 
 :::
