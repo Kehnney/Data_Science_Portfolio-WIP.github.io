@@ -13,10 +13,10 @@ Welcome to my data science portfolio. This repository is a Quarto website that s
 - **Highlights:** Dynamic Plotly scatter plots and comprehensive correlations between factors like GDP, Schooling, and Life Expectancy.
 - **Tech Stack:** Pandas, Numpy, Plotly.
 
-### 2. Liver Disease Predictor 🩺
-- **Description:** A client-side machine learning application that predicts the risk of liver disease based on patient health metrics.
-- **Highlights:** Employs a Random Forest Classifier trained on the Indian Liver Patient Dataset (ILPD). Includes dynamic heuristics that diagnose user inputs in real-time. Built with Shiny for Python running through Shinylive in the browser.
-- **Tech Stack:** Scikit-Learn, Shiny for Python (Shinylive), Plotly.
+### 2. Liver Disease Analysis 🩺
+- **Description:** A notebook-based analysis of liver disease risk factors, plus a browser demo for exploring patient-style inputs.
+- **Highlights:** Covers data cleaning, age and protein patterns, gender differences, and hypothesis tests. The interactive demo runs in the browser with Shiny for Python and Shinylive, but it is not a clinical model.
+- **Tech Stack:** Scikit-Learn, Shiny for Python (Shinylive), Plotly, Pandas, Numpy.
 
 ---
 
@@ -43,13 +43,13 @@ If you want to clone this repository, dig into the code, and run the development
 ### Installation
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/Kehnney/Data_Science_Portfolio-WIP.github.io.git
-   cd Data_Science_Portfolio-WIP.github.io
+   git clone https://github.com/Kehnney/DataScience_Portfolio.github.io.git
+   cd DataScience_Portfolio.github.io
    ```
 
 2. **Install the required Python packages:**
    ```bash
-   pip install jupyter shiny plotly pandas scikit-learn
+   pip install jupyter shiny plotly pandas scikit-learn matplotlib seaborn
    ```
 
 3. **Install the Quarto Shinylive Extension:**
