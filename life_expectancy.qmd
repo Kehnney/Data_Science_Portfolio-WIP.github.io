@@ -4,7 +4,7 @@ execute:
   echo: true
 ---
 
-This project looks at which factors are most closely associated with life expectancy across countries from 2000 to 2015. The notebook for this project focused on schooling, GDP per capita, mortality, immunization, region-level averages, and a few comparison checks between developed and developing countries.
+This project looks at which factors are most closely associated with life expectancy across countries from 2000 to 2015. The notebook focuses on schooling, GDP per capita, mortality, immunization, region-level averages, and a few comparison checks between developed and developing countries.
 
 ::: {.panel-tabset}
 
@@ -164,10 +164,10 @@ fig_status.update_layout(xaxis_title="Status", yaxis_title="Average Life Expecta
 fig_status.show()
 ```
 
-That comparison supports a key finding: developed countries tend to have higher average life expectancy, but the gap is better explained by a combination of schooling, mortality, vaccination, and income rather than any single factor.
+That comparison supports a key finding. Developed countries tend to have higher average life expectancy, but the gap is better explained by a combination of schooling, mortality, vaccination, and income rather than any single factor.
 
 ### A Tale Of Two Country Groups
-The notebook also compared three developed countries (Spain, France, and Japan) against three developing countries (India, Guyana, and Kenya). Across every measure - teenage thinness, adult mortality, and life expectancy - the two groups tell very different stories. Developed countries show balanced health outcomes and longer lifespans, while the developing countries in this comparison face higher mortality and more undernourished adolescents, particularly in India.
+The notebook also compared three developed countries, Spain, France, and Japan, against three developing countries, India, Guyana, and Kenya. The pattern is clear across teenage thinness, adult mortality, and life expectancy. Developed countries show longer lifespans and lower mortality, while the developing countries in this comparison face more undernourished adolescents and higher death rates, especially India.
 
 ### Population And Health Challenges
 The notebook also checked whether large populations were automatically linked to worse health outcomes.
@@ -200,7 +200,7 @@ fig_pop_mort = px.scatter(
 fig_pop_mort.show()
 ```
 
-These plots support the notebook's point that population size by itself does not explain HIV or adult mortality very well. The country's development level is the more useful context.
+These plots support the notebook's point that population size by itself does not explain HIV or adult mortality very well. Development level gives a better picture.
 
 ### Schooling And Improvement Over Time
 The notebook also asked whether more schooling was linked to faster improvement in life expectancy from 2000 to 2015.
@@ -232,7 +232,7 @@ schooling_growth = pd.DataFrame({
 schooling_growth
 ```
 
-Countries with more schooling tended to improve their life expectancy faster over the 15-year period - both among developing countries and globally. This reinforces education as one of the most consistently important factors throughout the analysis.
+Countries with more schooling tended to improve their life expectancy faster over the 15-year period, both among developing countries and globally. This reinforces education as one of the most consistent factors in the analysis.
 
 ### Conclusion
 

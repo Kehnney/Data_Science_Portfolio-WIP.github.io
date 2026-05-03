@@ -4,7 +4,7 @@ filters:
   - shinylive
 ---
 
-This project analyzes liver disease risk factors using the Indian Liver Patient Dataset (ILPD). The notebook focuses on cleaning, age and protein patterns, gender differences, and hypothesis tests. The interactive app at the end is only a small demo and should not be treated as a clinical model.
+This project analyzes liver disease risk factors using the Indian Liver Patient Dataset (ILPD). The notebook focuses on cleaning, age and protein patterns, gender differences, and hypothesis tests. The interactive app at the end is a demo only, not a clinical model.
 
 ::: {.panel-tabset}
 
@@ -57,7 +57,7 @@ test_results = pd.DataFrame({
 ```
 
 ### Dataset Overview
-The analysis is based on the **Indian Liver Patient Dataset (ILPD)**, containing 583 patient records collected from Andhra Pradesh, India. Each record labels the patient as either a liver disease patient or a healthy individual.
+The analysis is based on the **Indian Liver Patient Dataset (ILPD)**, containing 583 patient records collected from Andhra Pradesh, India. Each record is labeled as either healthy or diagnosed with liver disease.
 
 ### Cleaning
 The notebook found 4 missing values in the `A/G Ratio` column and removed those rows before analysis.
@@ -120,7 +120,7 @@ fig_prob.show()
 gender_prob
 ```
 
-In this dataset, about **27%** of men under 60 and **34%** of women under 60 were diagnosed with liver disease - women under 60 actually show the higher rate in this sample.
+In this dataset, about **27%** of men under 60 and **34%** of women under 60 were diagnosed with liver disease. Women under 60 show the higher rate in this sample.
 
 ### 4. Do These Patterns Hold Up to Statistical Testing?
 To check whether the patterns above could simply be due to chance, the notebook ran three statistical tests. Think of a p-value as a "could this be a fluke?" score - a p-value below 0.05 means the finding is unlikely to be random.
