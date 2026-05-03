@@ -167,7 +167,7 @@ fig_status.show()
 That comparison supports a key finding: developed countries tend to have higher average life expectancy, but the gap is better explained by a combination of schooling, mortality, vaccination, and income rather than any single factor.
 
 ### A Tale Of Two Country Groups
-The notebook also compared three developed countries (Spain, France, and Japan) against three developing countries (India, Guyana, and Kenya). Across every measure — teenage thinness, adult mortality, and life expectancy — the two groups tell very different stories. Developed countries show balanced health outcomes and longer lifespans, while the developing countries in this comparison face higher mortality and more undernourished adolescents, particularly in India.
+The notebook also compared three developed countries (Spain, France, and Japan) against three developing countries (India, Guyana, and Kenya). Across every measure - teenage thinness, adult mortality, and life expectancy - the two groups tell very different stories. Developed countries show balanced health outcomes and longer lifespans, while the developing countries in this comparison face higher mortality and more undernourished adolescents, particularly in India.
 
 ### Population And Health Challenges
 The notebook also checked whether large populations were automatically linked to worse health outcomes.
@@ -232,7 +232,7 @@ schooling_growth = pd.DataFrame({
 schooling_growth
 ```
 
-Countries with more schooling tended to improve their life expectancy faster over the 15-year period — both among developing countries and globally. This reinforces education as one of the most consistently important factors throughout the analysis.
+Countries with more schooling tended to improve their life expectancy faster over the 15-year period - both among developing countries and globally. This reinforces education as one of the most consistently important factors throughout the analysis.
 
 ### Conclusion
 
@@ -244,7 +244,7 @@ The analysis points to three consistent patterns:
 
 ## Interactive Dashboard
 
-Use the scatter plot below to explore how GDP per capita and life expectancy relate across different countries and years. Hover over any point to see the country name. The heatmap further down shows the full picture — how every numerical variable in the dataset relates to every other one. Deep red means a strong positive relationship; deep blue means a strong negative one.
+Use the scatter plot below to explore how GDP per capita and life expectancy relate across different countries and years. Hover over any point to see the country name. The heatmap further down shows the full picture - how every numerical variable in the dataset relates to every other one. Deep red means a strong positive relationship; deep blue means a strong negative one.
 
 ```{python}
 #| code-fold: true
