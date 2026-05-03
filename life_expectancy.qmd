@@ -244,7 +244,7 @@ The analysis points to three consistent patterns:
 
 ## Interactive Dashboard
 
-Use the scatter plot below to explore how GDP per capita and life expectancy relate across different countries and years. Hover over any point to see the country name. The heatmap further down shows the full picture - how every numerical variable in the dataset relates to every other one. Deep red means a strong positive relationship; deep blue means a strong negative one.
+Use the scatter plot below to explore how GDP per capita and life expectancy relate across different countries and years. Hover over any point to see the country name. The heatmap further down shows the full picture. It compares every numerical variable in the dataset with every other one. Deep red means a strong positive relationship, and deep blue means a strong negative one.
 
 ```{python}
 #| code-fold: true

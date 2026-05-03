@@ -101,7 +101,7 @@ fig_corr = px.scatter(
 fig_corr.show()
 ```
 
-Total Proteins and Albumin levels move closely together - when one is higher, the other tends to be higher too (correlation: 0.78 out of a maximum of 1.0). Since the liver produces Albumin, this tight relationship makes it a useful early signal of liver health.
+Total Proteins and Albumin levels move closely together. When one is higher, the other tends to be higher too, with a correlation of 0.78 out of a maximum of 1.0. Since the liver produces Albumin, this tight relationship makes it a useful early signal of liver health.
 
 ### 3. Demographic Risks (Men vs Women)
 We filtered the data to examine patients under 60 and calculate the likelihood of presenting with liver disease based on gender.
@@ -123,7 +123,7 @@ gender_prob
 In this dataset, about **27%** of men under 60 and **34%** of women under 60 were diagnosed with liver disease. Women under 60 show the higher rate in this sample.
 
 ### 4. Do These Patterns Hold Up to Statistical Testing?
-To check whether the patterns above could simply be due to chance, the notebook ran three statistical tests. Think of a p-value as a "could this be a fluke?" score - a p-value below 0.05 means the finding is unlikely to be random.
+To check whether the patterns above could simply be due to chance, the notebook ran three statistical tests. Think of a p-value as a "could this be a fluke?" score. A p-value below 0.05 means the finding is unlikely to be random.
 
 - **Men vs. women disease rates (under 60):** The difference was large enough to be unlikely random chance (p = 0.03). ✓ Meaningful.
 - **Albumin levels in healthy vs. diseased female patients:** No significant difference found (p = 0.18). This one could be chance.
@@ -138,7 +138,7 @@ test_results
 - Most patients in this dataset are middle-aged, with an average age of about 45.
 - Women under 60 show a higher liver disease diagnosis rate than men in this sample (34% vs 27%).
 - Total Proteins and Albumin move closely together, making Albumin a potentially useful early health marker.
-- Gender appears to be associated with albumin levels among diagnosed patients - a finding that could be worth investigating further in a clinical setting.
+- Gender appears to be associated with albumin levels among diagnosed patients. This is a finding that could be worth investigating further in a clinical setting.
 
 ## 🩺 Interactive Predictor
 
