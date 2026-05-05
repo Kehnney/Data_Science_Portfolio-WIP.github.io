@@ -8,12 +8,12 @@ Welcome to my data science portfolio. This repository is a Quarto website that s
 
 ## 📂 Featured Projects
 
-### 1. Life Expectancy Analysis 🌍
+### 1. Life Expectancy Analysis
 - **Description:** An interactive dashboard and comprehensive statistical report analyzing global life expectancy using WHO data.
 - **Highlights:** Dynamic Plotly scatter plots and comprehensive correlations between factors like GDP, Schooling, and Life Expectancy.
 - **Tech Stack:** Pandas, Numpy, Plotly.
 
-### 2. Liver Disease Analysis 🩺
+### 2. Liver Disease Analysis
 - **Description:** A notebook-based analysis of liver disease risk factors, plus a browser demo for exploring patient-style inputs.
 - **Highlights:** Covers data cleaning, age and protein patterns, gender differences, and hypothesis tests. The interactive demo runs in the browser with Shiny for Python and Shinylive, but it is not a clinical model.
 - **Tech Stack:** Scikit-Learn, Shiny for Python (Shinylive), Plotly, Pandas, Numpy.
@@ -28,7 +28,7 @@ Welcome to my data science portfolio. This repository is a Quarto website that s
 
 ---
 
-## 🚀 How to View & Run
+## How to View & Run
 
 **You DO NOT need to download or install anything to view this portfolio!** 
 Simply [click here to view the live interactive website](https://kehnney.github.io/DataScience_Portfolio.github.io/) directly in your browser. Thanks to Quarto and Shinylive, the interactive Python content executes directly in the client-side browser environment.
